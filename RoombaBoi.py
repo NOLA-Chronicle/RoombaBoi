@@ -5,7 +5,12 @@ import os
 import time
 from dotenv import load_dotenv
 
-logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.INFO)
+
+class RoombaBoi(discord.Bot):
+	async def on_ready(self):
+		print(config["StartingMsg"])
+		print("Logged in as {0.user}".format(bot))
 
 #Load Config File
 #-----------------------
@@ -25,20 +30,13 @@ __MSG_LIMIT = 500
 
 #Instantiate Bot
 #-----------------------
-bot = discord.Bot(description=description, case_insensitive=True)
-
-#Events
-#-----------------------
-@bot.event
-async def on_ready():
-	print(config["StartingMsg"])
-	print("Logged in as {0.user}".format(bot))
+bot = RoombaBoi()
 
 #Commands
 #-----------------------
 @bot.slash_command(name="cleanchannel", description="Deletes all messages in the current channel.")
 async def cleanChannel(ctx):
-	print("Recieved command")
+	print("Received command")
 	await ctx.respond("Deleting Messages...")
 	deleted = await ctx.channel.purge()
 	count = len(deleted)
@@ -49,10 +47,10 @@ async def cleanChannel(ctx):
 	await ctx.send('Deleted {} message(s)\nAll Clean!'.format(str(count)))
 
 @bot.slash_command(name="generatemessages", description="Generates a specified number of messages in the current channel.")
-async def genMsgs(ctx, arg: int):
+async def genMsgs(ctx, message_count: int):
 	count = 0
 	try:
-		count = int(arg)
+		count = int(message_count)
 	except:
 		print("Argument must be a number")
 		await ctx.respond("Argument must be a number")
@@ -61,7 +59,7 @@ async def genMsgs(ctx, arg: int):
 	await ctx.respond("Sending Messages...")
 	if count > __MSG_LIMIT: 
 		count = __MSG_LIMIT
-	for index in range(1,count):
+	for index in range(1,count+1):
 		message = "Some message #" + str(index)
 		await ctx.send(message)
 
