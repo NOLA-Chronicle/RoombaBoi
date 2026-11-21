@@ -24,7 +24,8 @@ load_dotenv()
 
 #Discord Bot Settings
 #-----------------------
-__BotAuthKey = os.getenv('DIS_AUTHK')
+#__BotAuthKey = os.getenv('DIS_AUTHK')
+__BotAuthKey = os.getenv('DISCORD_TOKEN')
 description = "Clean a channel's message history. \nDon't worry, we won't tell anyone what we find."
 __MSG_LIMIT = 500
 
